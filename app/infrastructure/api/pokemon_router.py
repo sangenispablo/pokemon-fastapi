@@ -5,6 +5,7 @@ from app.domain.exceptions.pokemon_already_exists import PokemonAlreadyExistsErr
 from app.infrastructure.api.schemas.pokemon_schema import CreatePokemonRequest
 from app.infrastructure.dependencies.pokemon_dependencies import (
     get_create_pokemon_use_case,
+    get_pokemon_use_case,
 )
 
 router = APIRouter(prefix="/pokemon", tags=["Pokemon"])
@@ -20,3 +21,12 @@ def create_pokemon(
         number=request.number,
         name=request.name,
     )
+
+
+@router.get("/{number}")
+def get_pokemon(
+    number: int,
+    use_case=Depends(get_pokemon_use_case),
+):
+
+    return use_case.execute(number)
