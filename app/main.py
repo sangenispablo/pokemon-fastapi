@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from app.domain.exceptions.pokemon_already_exists import PokemonAlreadyExistsError
-from app.infrastructure.api import pokemon_router
+from app.infrastructure.api import health_router, pokemon_router
 from app.infrastructure.api.exception_handlers import pokemon_already_exists_handler
 
 app = FastAPI(
@@ -15,8 +15,4 @@ app.add_exception_handler(
 )
 
 app.include_router(pokemon_router.router)
-
-
-@app.get("/health")
-def health_check():
-    return {"status": "ok"}
+app.include_router(health_router.router)
